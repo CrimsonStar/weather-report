@@ -19,12 +19,29 @@ export class WeatherReportMainComponent implements OnInit {
   country='CA'
   getWeatherDataCity(){
     fetch('http://api.openweathermap.org/data/2.5/weather?q='+this.city+'&units-metric&APPID=e8c137facdd34df222d27a1522e1c2ce').then(response=>response.json())
-    .then(data=>this.setWeatherData(data))
+    .then(data=>{
+      console.log(JSON.stringify(data))
+      if(data.message==="city not found"){
+        alert("Unable to pull location. Please try again.");
+      }
+      else{
+        this.setWeatherData(data);
+      }
+      //this.setWeatherData(data);
+    })
   }
 
   getWeatherDataCountry(){
     fetch('http://api.openweathermap.org/data/2.5/weather?q='+this.city+','+this.country+'&units-metric&APPID=e8c137facdd34df222d27a1522e1c2ce').then(response=>response.json())
-    .then(data=>this.setWeatherData(data))
+    .then(data=>{
+      console.log(JSON.stringify(data));
+      if(data.message==="city not found"){
+      alert("Unable to pull location. Please try again.");
+      }
+      else{
+        this.setWeatherData(data);
+      }
+    })
   }
   setWeatherData(data: any){
     this.WeatherData=data;
@@ -65,14 +82,26 @@ export class WeatherReportMainComponent implements OnInit {
   onEnterCountry(event: any, cityName:string){
     this.city=cityName;
     console.log(this.city);
+    if(event.target.value==="USA" || event.target.value==="US" ||event.target.value==="United States"){
+      event.target.value="United States of America";
+    }
+    if(event.target.value==="UK" || event.target.value==="England"){
+      event.target.value="United Kingdom";
+    }
     fetch('https://restcountries.com/v3.1/name/'+event.target.value).then(response=>response.json())
     .then(response=> this.setCountry(response[0].cca2));
     console.log(this.country);
     this.getWeatherDataCountry();
   }
-  enterCountry(event: any, cityName:string){
+  enterCountry(event: string, cityName:string){
     this.city=cityName;
     console.log(this.city);
+    if(event==="USA" || event==="US" ||event==="United States"){
+      event="United States of America";
+    }
+    if(event==="UK" || event==="England"){
+      event="United Kingdom";
+    }
     fetch('https://restcountries.com/v3.1/name/'+event).then(response=>response.json())
     .then(response=> this.setCountry(response[0].cca2));
     console.log(this.country);
