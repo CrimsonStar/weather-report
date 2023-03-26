@@ -13,7 +13,7 @@ export class WeatherReportMainComponent implements OnInit {
   iconURL:any;
    api= {
     key: "e8c137facdd34df222d27a1522e1c2ce",
-    baseurl: "http://api.openweathermap.org/data/2.5/"
+    baseurl: "https://api.openweathermap.org/data/2.5/"
   }
   city ='mississauga'
   country='CA'
@@ -54,6 +54,11 @@ export class WeatherReportMainComponent implements OnInit {
     this.city=event.target.value;
     this.getWeatherDataCity();
   }
+  enterCity(value: any){
+    this.city=value;
+    console.log(value);
+    this.getWeatherDataCity();
+  }
   setCountry(data:any){
     this.country=data;
   }
@@ -61,6 +66,14 @@ export class WeatherReportMainComponent implements OnInit {
     this.city=cityName;
     console.log(this.city);
     fetch('https://restcountries.com/v3.1/name/'+event.target.value).then(response=>response.json())
+    .then(response=> this.setCountry(response[0].cca2));
+    console.log(this.country);
+    this.getWeatherDataCountry();
+  }
+  enterCountry(event: any, cityName:string){
+    this.city=cityName;
+    console.log(this.city);
+    fetch('https://restcountries.com/v3.1/name/'+event).then(response=>response.json())
     .then(response=> this.setCountry(response[0].cca2));
     console.log(this.country);
     this.getWeatherDataCountry();

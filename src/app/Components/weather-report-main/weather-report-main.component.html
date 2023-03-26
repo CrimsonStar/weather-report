@@ -5,14 +5,16 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Weather App</title>
   <script src="./../weather-report-main/weather-report-main.component.ts"></script>
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 </head>
 <body>
   <div class="app-wrap">
     <header >
       
       <main>
-        <input style="align-items: center;" type="text" autocomplete="off"  #cityName class="search-box" placeholder="Search for a city..." (keyup.Enter)="onEnterCity($event)">
-        <input style="align-items: center;" type="text" autocomplete="off" name="countryName" class="search-box" placeholder="Search for a country name..." (keyup.Enter)="onEnterCountry($event,cityName.value)">
+        <input style="align-items: center;" type="text" autocomplete="off" name="cityName"  #cityName class="search-box" placeholder="Search for a city..." (keyup.Enter)="onEnterCity($event)"> <button class="button" (click)="enterCity(cityName.value)">Enter City</button>
+        <input style="align-items: center;" type="text" #countryName autocomplete="off" name="countryName" class="search-box" placeholder="Search for a country name..." (keyup.Enter)="onEnterCountry($event,cityName.value)">
+        <button class="button" (click)="enterCountry(countryName.value, cityName.value)">Enter City and Country (Optional)</button>
         <section class="location">
           <div class="city">{{WeatherData.name}} <br/> {{WeatherData.sys.country}}</div>
           <div class="date">{{WeatherData.date}}</div>
@@ -20,7 +22,7 @@
         <div class="current">
           <div class="'icon"><img src="{{iconURL}}" alt="weather icon"/></div>
           <div class="temp">Current Temperature: {{WeatherData.temp_celcius}}<span>°C</span></div>
-          <div class="hi-low">Feels Like: {{WeatherData.temp_feels_like}}°C</div>
+          <div class="hi-low">Feels Likes: {{WeatherData.temp_feels_like}}°C</div>
           <div class="weather">{{WeatherData.weather[0].description}}</div>
           <div class="hi-low">Temperature Min/Temperature Max: {{WeatherData.temp_min}}°C/{{WeatherData.temp_max}}°C </div>
         </div>
